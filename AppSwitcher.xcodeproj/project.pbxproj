@@ -17,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		0E371E2627CD017000DC5E65 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0E411AFC27CD21730072FC24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0E7FC45127CCFC59009959A5 /* AppSwitcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppSwitcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7FC45427CCFC59009959A5 /* AppSwitcherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSwitcherApp.swift; sourceTree = "<group>"; };
 		0E7FC45627CCFC59009959A5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 		0E7FC45327CCFC59009959A5 /* AppSwitcher */ = {
 			isa = PBXGroup;
 			children = (
+				0E411AFC27CD21730072FC24 /* Info.plist */,
 				0E7FC45427CCFC59009959A5 /* AppSwitcherApp.swift */,
 				0E7FC45627CCFC59009959A5 /* ContentView.swift */,
 				0E7FC45827CCFC5B009959A5 /* Assets.xcassets */,
@@ -286,6 +288,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AppSwitcher/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppSwitcher/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -311,6 +314,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AppSwitcher/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppSwitcher/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

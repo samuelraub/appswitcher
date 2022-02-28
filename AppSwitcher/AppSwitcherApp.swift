@@ -15,9 +15,9 @@ struct AppSwitcherApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("ContentView") {
             ContentView()
-        }
+        }.handlesExternalEvents(matching: Set(arrayLiteral: "ContentView"))
     }
 }
 
@@ -43,14 +43,12 @@ final class AppState: ObservableObject {
 
 class AppDelegate: NSObject,NSApplicationDelegate {
     var statusItem: NSStatusItem?
-    var popOver = NSPopover()
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let menuView = ContentView()
-        popOver.behavior = .transient
-        popOver.animates = true
-        popOver.contentViewController = NSViewController()
-        popOver.contentViewController?.view = NSHostingView(rootView: menuView)
+        
+        if let window = NSApplication.shared.windows.first {
+            window.close()
+        }
         
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
@@ -60,9 +58,22 @@ class AppDelegate: NSObject,NSApplicationDelegate {
         }
     }
     
-    @objc func MenuButtonToggle(){
-        if let MenuButton = statusItem?.button {
-            self.popOver.show(relativeTo: MenuButton.bounds, of: MenuButton, preferredEdge: NSRectEdge.minY)
+    @objc func MenuButtonToggle() {
+        let window = NSApplication.shared.windows.filter { w in
+            return w.title == "ContentView"
+        }
+        if window.isEmpty {
+            OpenWindows.ContentView.open()
+        }
+    }
+}
+
+enum OpenWindows: String, CaseIterable {
+    case ContentView = "ContentView"
+
+    func open(){
+        if let url = URL(string: "appswitcher://\(self.rawValue)") {
+            NSWorkspace.shared.open(url)
         }
     }
 }
