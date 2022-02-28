@@ -10,34 +10,21 @@ import KeyboardShortcuts
 
 @main
 struct AppSwitcherApp: App {
-    @StateObject private var appState = AppState()
+    @StateObject var appState = AppState()
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
-        WindowGroup("ContentView") {
-            ContentView()
-        }.handlesExternalEvents(matching: Set(arrayLiteral: "ContentView"))
+        WindowGroup("Settings") {
+            ContentView().environmentObject(appState)
+        }.handlesExternalEvents(matching: Set(arrayLiteral: "Settings"))
     }
 }
 
 @MainActor
 final class AppState: ObservableObject {
-    init() {
-        KeyboardShortcuts.onKeyUp(for: .intelliJ) {
-            guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.jetbrains.intellij") else { return }
-            let configuration = NSWorkspace.OpenConfiguration()
-            NSWorkspace.shared.openApplication(at: url,
-                                               configuration: configuration,
-                                               completionHandler: nil)
-        }
-        KeyboardShortcuts.onKeyUp(for: .chrome) {
-            guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.google.Chrome") else { return }
-            let configuration = NSWorkspace.OpenConfiguration()
-            NSWorkspace.shared.openApplication(at: url,
-                                               configuration: configuration,
-                                               completionHandler: nil)
-        }
+    @Published var apps: [String?] = (0...9).map {idx in
+        return UserDefaults.standard.string(forKey: "app\(idx)")
     }
 }
 
@@ -45,9 +32,33 @@ class AppDelegate: NSObject,NSApplicationDelegate {
     var statusItem: NSStatusItem?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        let window = NSApplication.shared.windows.filter { w in
+            return w.title == "Settings"
+        }
         
-        if let window = NSApplication.shared.windows.first {
-            window.close()
+        if !window.isEmpty {
+            window[0].close()
+        }
+        
+        (0...9).forEach {idx in
+            let str = UserDefaults.standard.string(forKey: "app\(idx)") ?? nil
+            if str == nil {
+                return
+            }
+            
+            let url = URL(string: str!)
+            
+            if url == nil {
+                return
+            }
+            
+            KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name.allCases[idx]) {
+                guard let url = NSWorkspace.shared.urlForApplication(toOpen: url!) else { return }
+                let configuration = NSWorkspace.OpenConfiguration()
+                NSWorkspace.shared.openApplication(at: url,
+                                                   configuration: configuration,
+                                                   completionHandler: nil)
+            }
         }
         
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -60,16 +71,18 @@ class AppDelegate: NSObject,NSApplicationDelegate {
     
     @objc func MenuButtonToggle() {
         let window = NSApplication.shared.windows.filter { w in
-            return w.title == "ContentView"
+            return w.title == "Settings"
         }
         if window.isEmpty {
-            OpenWindows.ContentView.open()
+            OpenWindows.Settings.open()
+        } else {
+            window[0].level = NSWindow.Level.floating
         }
     }
 }
 
 enum OpenWindows: String, CaseIterable {
-    case ContentView = "ContentView"
+    case Settings = "Settings"
 
     func open(){
         if let url = URL(string: "appswitcher://\(self.rawValue)") {

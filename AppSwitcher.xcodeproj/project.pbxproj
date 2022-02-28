@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E371E2527CD013B00DC5E65 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 0E371E2427CD013B00DC5E65 /* KeyboardShortcuts */; };
 		0E371E2727CD017000DC5E65 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E371E2627CD017000DC5E65 /* Constants.swift */; };
+		0E411AFF27CD2AC10072FC24 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 0E411AFE27CD2AC10072FC24 /* FilePicker */; };
 		0E7FC45527CCFC59009959A5 /* AppSwitcherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FC45427CCFC59009959A5 /* AppSwitcherApp.swift */; };
 		0E7FC45727CCFC59009959A5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FC45627CCFC59009959A5 /* ContentView.swift */; };
 		0E7FC45927CCFC5B009959A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7FC45827CCFC5B009959A5 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E411AFF27CD2AC10072FC24 /* FilePicker in Frameworks */,
 				0E371E2527CD013B00DC5E65 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +96,7 @@
 			name = AppSwitcher;
 			packageProductDependencies = (
 				0E371E2427CD013B00DC5E65 /* KeyboardShortcuts */,
+				0E411AFE27CD2AC10072FC24 /* FilePicker */,
 			);
 			productName = AppSwitcher;
 			productReference = 0E7FC45127CCFC59009959A5 /* AppSwitcher.app */;
@@ -125,6 +128,7 @@
 			mainGroup = 0E7FC44827CCFC59009959A5;
 			packageReferences = (
 				0E371E2327CD013B00DC5E65 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				0E411AFD27CD2AC10072FC24 /* XCRemoteSwiftPackageReference "FilePicker" */,
 			);
 			productRefGroup = 0E7FC45227CCFC59009959A5 /* Products */;
 			projectDirPath = "";
@@ -360,6 +364,14 @@
 				kind = branch;
 			};
 		};
+		0E411AFD27CD2AC10072FC24 /* XCRemoteSwiftPackageReference "FilePicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:markrenaud/FilePicker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -367,6 +379,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0E371E2327CD013B00DC5E65 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
+		};
+		0E411AFE27CD2AC10072FC24 /* FilePicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E411AFD27CD2AC10072FC24 /* XCRemoteSwiftPackageReference "FilePicker" */;
+			productName = FilePicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
