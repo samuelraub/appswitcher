@@ -48,18 +48,30 @@ class Helpers {
         return paths[0]
     }
     
+    static func setDefaultSettings() -> StateApps? {
+        if let apps = fromJson() {
+            return apps
+        }
+        do {
+            let fm = FileManager.default
+            let resUrl = Bundle.main.url(forResource: "settings", withExtension: "json")
+            try fm.copyItem(at: resUrl!, to: getDocumentsDirectory().appendingPathComponent("settings.json"))
+            return fromJson()
+        } catch {
+            return nil
+        }
+    }
+    
     static func toJson(data: StateApps) -> Bool? {
         do {
             let enc = JSONEncoder()
             enc.outputFormatting = .prettyPrinted
             let json = try enc.encode(data)
             let url = getDocumentsDirectory().appendingPathComponent("settings.json")
-            print(url.absoluteString)
             let str = String(data: json, encoding: .utf8)!
             try str.write(to: url, atomically: true, encoding: .utf8)
             return true
         } catch {
-            print(error)
             return nil
         }
     }
@@ -75,7 +87,6 @@ class Helpers {
             let apps = try dec.decode(StateApps.self, from: data!)
             return apps
         } catch {
-            print(error)
             return nil
         }
     }

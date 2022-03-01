@@ -22,6 +22,7 @@ struct ContentView: View {
                             Text(URL(string: app!)?.lastPathComponent ?? "None")
                             Button("Clear", action: {
                                 appState.apps[idx] = nil
+                                print(appState.jsonApps)
                                 UserDefaults.standard.set(nil, forKey: "app\(idx)")
                             })
                         } else {
@@ -29,14 +30,6 @@ struct ContentView: View {
                                 if !urls.isEmpty {
                                     appState.apps[idx] = urls[0].absoluteString
                                     Helpers.registerShortcut(key: "app\(idx)", value: urls[0])
-//                                    UserDefaults.standard.set(urls[0].absoluteString, forKey: "app\(idx)")
-//                                    KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name.allCases[idx]) {
-//                                        guard let url = NSWorkspace.shared.urlForApplication(toOpen: urls[0]) else { return }
-//                                        let configuration = NSWorkspace.OpenConfiguration()
-//                                        NSWorkspace.shared.openApplication(at: url,
-//                                                                           configuration: configuration,
-//                                                                           completionHandler: nil)
-//                                    }
                                 } else {
                                     appState.apps[0] = nil
                                     UserDefaults.standard.set(nil, forKey: "app\(idx)")

@@ -26,15 +26,20 @@ final class AppState: ObservableObject {
     @Published var apps: [String?] = (0...9).map {idx in
         return UserDefaults.standard.string(forKey: "app\(idx)")
     }
+    
+    @Published var jsonApps: StateApps = Helpers.setDefaultSettings()!
 }
 
 class AppDelegate: NSObject,NSApplicationDelegate {
     var statusItem: NSStatusItem?
+    @EnvironmentObject var appState: AppState
+    
+    func applicationWillTerminate(_ notification: Notification) {
+        let data = Helpers.toJson(data: appState.jsonApps)
+        print(data!)
+    }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        
-        Helpers.toJson(data: StateApps(apps: [StateApp(key: "foo", value: "bar")]))
-        print(Helpers.fromJson())
         
         let window = NSApplication.shared.windows.filter { w in
             return w.title == "Settings"
