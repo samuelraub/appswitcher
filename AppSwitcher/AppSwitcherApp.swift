@@ -27,17 +27,12 @@ final class AppState: ObservableObject {
         return UserDefaults.standard.string(forKey: "app\(idx)")
     }
     
-    @Published var jsonApps: StateApps = Helpers.setDefaultSettings()!
+    @Published var jsonApps: StateApps = Helpers.getSettingsOrSetDefaults()!
 }
 
 class AppDelegate: NSObject,NSApplicationDelegate {
     var statusItem: NSStatusItem?
     @EnvironmentObject var appState: AppState
-    
-    func applicationWillTerminate(_ notification: Notification) {
-        let data = Helpers.toJson(data: appState.jsonApps)
-        print(data!)
-    }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         
@@ -47,22 +42,6 @@ class AppDelegate: NSObject,NSApplicationDelegate {
         
         if !window.isEmpty {
             window[0].close()
-        }
-        
-        (0...9).forEach {idx in
-            let str = UserDefaults.standard.string(forKey: "app\(idx)") ?? nil
-            if str == nil {
-                return
-            }
-            
-            let url = URL(string: str!)
-            
-            if url == nil {
-                return
-            }
-            
-            Helpers.registerShortcut(key: "app\(idx)", value: url!)
-            
         }
         
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)

@@ -27,13 +27,19 @@ class Helpers {
         return URL(string: str)
     }
     
-    static func registerShortcut(key: String, value: URL) {
+    static func registerShortcut(key: String, value: URL, state: StateApps) -> StateApps? {
         let kkey = KeyboardShortcuts.Name.allCases.first(where: {$0.rawValue == key})?.rawValue as String?
         let idx = KeyboardShortcuts.Name.allCases.firstIndex(where: {$0.rawValue == key})
         if kkey == nil || idx == nil{
-            return
+            return nil
         }
-        UserDefaults.standard.set(urlToString(url: value), forKey: kkey!)
+        let newStateApp = StateApp(key: kkey!, value: urlToString(url: value))
+        let newStateApps: [StateApp] = state.apps.map {app in
+            if app.key == kkey {
+                return newStateApp
+            }
+            return app
+        }
         KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name.allCases[idx!]) {
             guard let url = NSWorkspace.shared.urlForApplication(toOpen: value) else { return }
             let configuration = NSWorkspace.OpenConfiguration()
@@ -41,6 +47,9 @@ class Helpers {
                                                configuration: configuration,
                                                completionHandler: nil)
         }
+        let _ = toJson(data: StateApps(apps: newStateApps))
+        print("Registered \(value.lastPathComponent)")
+        return StateApps(apps: newStateApps)
     }
     
     static func getDocumentsDirectory() -> URL {
@@ -48,8 +57,13 @@ class Helpers {
         return paths[0]
     }
     
-    static func setDefaultSettings() -> StateApps? {
+    static func getSettingsOrSetDefaults() -> StateApps? {
         if let apps = fromJson() {
+            apps.apps.forEach {app in
+                if let val = app.value {
+                    let _ = registerShortcut(key: app.key, value: stringToUrl(str: val)!, state: apps)
+                }
+            }
             return apps
         }
         do {
