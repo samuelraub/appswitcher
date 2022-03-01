@@ -18,7 +18,6 @@ struct ContentView: View {
                 ForEach(0..<appState.apps.count) { idx in
                     HStack {
                         let app = appState.apps[idx]
-                        
                         if app != nil {
                             Text(URL(string: app!)?.lastPathComponent ?? "None")
                             Button("Clear", action: {
@@ -29,14 +28,15 @@ struct ContentView: View {
                             FilePicker(types: [.applicationBundle], allowMultiple: false, title: "Pick an Application") { urls in
                                 if !urls.isEmpty {
                                     appState.apps[idx] = urls[0].absoluteString
-                                    UserDefaults.standard.set(urls[0].absoluteString, forKey: "app\(idx)")
-                                    KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name.allCases[idx]) {
-                                        guard let url = NSWorkspace.shared.urlForApplication(toOpen: urls[0]) else { return }
-                                        let configuration = NSWorkspace.OpenConfiguration()
-                                        NSWorkspace.shared.openApplication(at: url,
-                                                                           configuration: configuration,
-                                                                           completionHandler: nil)
-                                    }
+                                    Helpers.registerShortcut(key: "app\(idx)", value: urls[0])
+//                                    UserDefaults.standard.set(urls[0].absoluteString, forKey: "app\(idx)")
+//                                    KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name.allCases[idx]) {
+//                                        guard let url = NSWorkspace.shared.urlForApplication(toOpen: urls[0]) else { return }
+//                                        let configuration = NSWorkspace.OpenConfiguration()
+//                                        NSWorkspace.shared.openApplication(at: url,
+//                                                                           configuration: configuration,
+//                                                                           completionHandler: nil)
+//                                    }
                                 } else {
                                     appState.apps[0] = nil
                                     UserDefaults.standard.set(nil, forKey: "app\(idx)")

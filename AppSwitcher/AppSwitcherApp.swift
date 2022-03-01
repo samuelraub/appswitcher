@@ -32,6 +32,10 @@ class AppDelegate: NSObject,NSApplicationDelegate {
     var statusItem: NSStatusItem?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        
+        Helpers.toJson(data: StateApps(apps: [StateApp(key: "foo", value: "bar")]))
+        print(Helpers.fromJson())
+        
         let window = NSApplication.shared.windows.filter { w in
             return w.title == "Settings"
         }
@@ -52,13 +56,8 @@ class AppDelegate: NSObject,NSApplicationDelegate {
                 return
             }
             
-            KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name.allCases[idx]) {
-                guard let url = NSWorkspace.shared.urlForApplication(toOpen: url!) else { return }
-                let configuration = NSWorkspace.OpenConfiguration()
-                NSWorkspace.shared.openApplication(at: url,
-                                                   configuration: configuration,
-                                                   completionHandler: nil)
-            }
+            Helpers.registerShortcut(key: "app\(idx)", value: url!)
+            
         }
         
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)

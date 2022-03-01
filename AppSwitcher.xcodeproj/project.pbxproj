@@ -14,6 +14,8 @@
 		0E7FC45727CCFC59009959A5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FC45627CCFC59009959A5 /* ContentView.swift */; };
 		0E7FC45927CCFC5B009959A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7FC45827CCFC5B009959A5 /* Assets.xcassets */; };
 		0E7FC45C27CCFC5B009959A5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7FC45B27CCFC5B009959A5 /* Preview Assets.xcassets */; };
+		0EB0BA1127CE05AA00B1900F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0BA1027CE05AA00B1900F /* Helpers.swift */; };
+		0EB0BA1327CE12E400B1900F /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EB0BA1227CE12E400B1900F /* settings.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		0E7FC45827CCFC5B009959A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E7FC45B27CCFC5B009959A5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0E7FC45D27CCFC5B009959A5 /* AppSwitcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppSwitcher.entitlements; sourceTree = "<group>"; };
+		0EB0BA1027CE05AA00B1900F /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		0EB0BA1227CE12E400B1900F /* settings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settings.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				0E7FC45D27CCFC5B009959A5 /* AppSwitcher.entitlements */,
 				0E7FC45A27CCFC5B009959A5 /* Preview Content */,
 				0E371E2627CD017000DC5E65 /* Constants.swift */,
+				0EB0BA1027CE05AA00B1900F /* Helpers.swift */,
+				0EB0BA1227CE12E400B1900F /* settings.json */,
 			);
 			path = AppSwitcher;
 			sourceTree = "<group>";
@@ -145,6 +151,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EB0BA1327CE12E400B1900F /* settings.json in Resources */,
 				0E7FC45C27CCFC5B009959A5 /* Preview Assets.xcassets in Resources */,
 				0E7FC45927CCFC5B009959A5 /* Assets.xcassets in Resources */,
 			);
@@ -160,6 +167,7 @@
 				0E7FC45727CCFC59009959A5 /* ContentView.swift in Sources */,
 				0E7FC45527CCFC59009959A5 /* AppSwitcherApp.swift in Sources */,
 				0E371E2727CD017000DC5E65 /* Constants.swift in Sources */,
+				0EB0BA1127CE05AA00B1900F /* Helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

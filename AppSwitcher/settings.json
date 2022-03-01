@@ -1,0 +1,44 @@
+{
+    "apps": [
+        {
+            "key": "app0",
+            "value": null
+        },
+        {
+            "key": "app1",
+            "value": null
+        },
+        {
+            "key": "app2",
+            "value": null
+        },
+        {
+            "key": "app3",
+            "value": null
+        },
+        {
+            "key": "app4",
+            "value": null
+        },
+        {
+            "key": "app5",
+            "value": null
+        },
+        {
+            "key": "app6",
+            "value": null
+        },
+        {
+            "key": "app7",
+            "value": null
+        },
+        {
+            "key": "app8",
+            "value": null
+        },
+        {
+            "key": "app9",
+            "value": null
+        }
+    ]
+}
