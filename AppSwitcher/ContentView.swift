@@ -13,7 +13,8 @@ struct ContentView: View {
     @EnvironmentObject var appState: AppState
     
     var body: some View {
-        Form {
+        VStack(alignment: .center) {
+            Text("AppSwitcher").font(.title).padding()
             VStack(alignment: .trailing) {
                 ForEach(0..<appState.apps.count) { idx in
                     HStack {
@@ -59,8 +60,25 @@ struct ContentView: View {
                         KeyboardShortcuts.Recorder(for: KeyboardShortcuts.Name.allCases[idx])
                     }
                 }
-            }
-        }.frame(minWidth: 640, idealWidth: 640, minHeight: 480, idealHeight: 480)
+            }.padding()
+            VStack {
+                Button("Save", action: {
+                    let stateApps = StorageBackend.getAll()
+                    let newStateApps: [StateApp] = stateApps.apps.map {app in
+                        let name = KeyboardShortcuts.Name.allCases.first(where: {$0.rawValue == app.key})!
+                        let sc = KeyboardShortcuts.getShortcut(for: name)
+                        return StateApp(key: app.key, value: app.value, shortcut: sc == nil ? nil : StateAppShortcurt(
+                            carbonModifiers: sc!.carbonModifiers, carbonKeyCode: sc!.carbonKeyCode
+                        ))
+                    }
+                    try? StorageBackend.storeAll(state: StateApps(apps: newStateApps))
+                }).keyboardShortcut(.defaultAction)
+                Spacer()
+                Text("Settings: \(Helpers.getDocumentsDirectory().appendingPathComponent("settings.json").relativePath)")
+                    .font(.system(size: 12.0))
+                    .textSelection(.enabled)
+            }.padding()
+        }.frame(minWidth: 800, idealWidth: 800, minHeight: 600, idealHeight: 600)
     }
 }
 
