@@ -27,14 +27,46 @@ final class AppState: ObservableObject {
         return UserDefaults.standard.string(forKey: "app\(idx)")
     }
     
-    @Published var jsonApps: StateApps = Helpers.getSettingsOrSetDefaults()!
+    @Published var jsonApps: StateApps = StorageBackend.getAll()
 }
 
 class AppDelegate: NSObject,NSApplicationDelegate {
     var statusItem: NSStatusItem?
-    @EnvironmentObject var appState: AppState
+    
+    func applicationDidResignActive(_ notification: Notification) {
+        let stateApps = StorageBackend.getAll()
+        let newStateApps: [StateApp] = stateApps.apps.map {app in
+            let name = KeyboardShortcuts.Name.allCases.first(where: {$0.rawValue == app.key})!
+            let sc = KeyboardShortcuts.getShortcut(for: name)
+            return StateApp(key: app.key, value: app.value, shortcut: sc == nil ? nil : StateAppShortcurt(
+                carbonModifiers: sc!.carbonModifiers, carbonKeyCode: sc!.carbonKeyCode
+            ))
+        }
+        try? StorageBackend.storeAll(state: StateApps(apps: newStateApps))
+    }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        
+        let stateApps = StorageBackend.getAll()
+        KeyboardShortcuts.removeAllHandlers()
+        KeyboardShortcuts.reset(KeyboardShortcuts.Name.allCases)
+        stateApps.apps.forEach {app in
+            if app.shortcut != nil && app.value != nil {
+                let sc = KeyboardShortcuts.Shortcut.init(carbonKeyCode: app.shortcut!.carbonKeyCode, carbonModifiers: app.shortcut!.carbonModifiers)
+                if let name = KeyboardShortcuts.Name.allCases.first(where: {$0.rawValue == app.key}) {
+                    KeyboardShortcuts.setShortcut(sc, for: name)
+                    KeyboardShortcuts.onKeyUp(for: name) {
+                        guard let url = NSWorkspace.shared.urlForApplication(toOpen: Helpers.stringToUrl(str: app.value!)!) else {
+                            return
+                        }
+                        let configuration = NSWorkspace.OpenConfiguration()
+                        NSWorkspace.shared.openApplication(at: url,
+                                                           configuration: configuration,
+                                                           completionHandler: nil)
+                    }
+                }
+            }
+        }
         
         let window = NSApplication.shared.windows.filter { w in
             return w.title == "Settings"

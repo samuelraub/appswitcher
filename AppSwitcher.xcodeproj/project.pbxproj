@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E2AAFF327CFA461002BACA8 /* StorageBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2AAFF227CFA461002BACA8 /* StorageBackend.swift */; };
 		0E371E2527CD013B00DC5E65 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 0E371E2427CD013B00DC5E65 /* KeyboardShortcuts */; };
 		0E371E2727CD017000DC5E65 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E371E2627CD017000DC5E65 /* Constants.swift */; };
 		0E411AFF27CD2AC10072FC24 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 0E411AFE27CD2AC10072FC24 /* FilePicker */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E2AAFF227CFA461002BACA8 /* StorageBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBackend.swift; sourceTree = "<group>"; };
 		0E371E2627CD017000DC5E65 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0E411AFC27CD21730072FC24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0E7FC45127CCFC59009959A5 /* AppSwitcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppSwitcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +74,7 @@
 				0E371E2627CD017000DC5E65 /* Constants.swift */,
 				0EB0BA1027CE05AA00B1900F /* Helpers.swift */,
 				0EB0BA1227CE12E400B1900F /* settings.json */,
+				0E2AAFF227CFA461002BACA8 /* StorageBackend.swift */,
 			);
 			path = AppSwitcher;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E2AAFF327CFA461002BACA8 /* StorageBackend.swift in Sources */,
 				0E7FC45727CCFC59009959A5 /* ContentView.swift in Sources */,
 				0E7FC45527CCFC59009959A5 /* AppSwitcherApp.swift in Sources */,
 				0E371E2727CD017000DC5E65 /* Constants.swift in Sources */,
@@ -295,13 +299,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AppSwitcher/AppSwitcher.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AppSwitcher/Preview Content\"";
+				DEVELOPMENT_TEAM = 5R9BALGVCL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AppSwitcher/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -321,13 +328,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AppSwitcher/AppSwitcher.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AppSwitcher/Preview Content\"";
+				DEVELOPMENT_TEAM = 5R9BALGVCL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AppSwitcher/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -336,6 +346,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.samuelraub.AppSwitcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};

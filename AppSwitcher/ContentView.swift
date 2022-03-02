@@ -21,15 +21,37 @@ struct ContentView: View {
                         if app.value != nil {
                             Text(URL(string: app.value!)?.lastPathComponent ?? "None")
                             Button("Clear", action: {
-                                appState.apps[idx] = nil
+                                if let newStateApps = try? StorageBackend.storeApp(
+                                    app: StateApp(key: app.key, value: nil, shortcut: nil),
+                                    state: appState.jsonApps) {
+                                    appState.jsonApps = newStateApps
+                                }
                             })
                         } else {
                             FilePicker(types: [.applicationBundle], allowMultiple: false, title: "Pick an Application") { urls in
                                 if !urls.isEmpty {
-                                    appState.apps[idx] = urls[0].absoluteString
-                                    let stateApps = Helpers.registerShortcut(key: "app\(idx)", value: urls[0], state: appState.jsonApps)
-                                    if stateApps != nil {
-                                        appState.jsonApps = stateApps!
+                                    let url = urls[0]
+                                    let scName = KeyboardShortcuts.Name.allCases[idx]
+                                    KeyboardShortcuts.onKeyUp(for: scName) {
+                                        guard let url = NSWorkspace.shared.urlForApplication(toOpen: url) else { return }
+                                        let configuration = NSWorkspace.OpenConfiguration()
+                                        NSWorkspace.shared.openApplication(at: url,
+                                                                           configuration: configuration,
+                                                                           completionHandler: nil)
+                                    }
+                                    if let sc = KeyboardShortcuts.getShortcut(for: scName) {
+                                        if let newStateApps = try? StorageBackend.storeApp(app: StateApp(
+                                            key: app.key, value: Helpers.urlToString(url: url), shortcut: StateAppShortcurt(
+                                                carbonModifiers: sc.carbonModifiers, carbonKeyCode: sc.carbonKeyCode)
+                                            ), state: appState.jsonApps) {
+                                            appState.jsonApps = newStateApps
+                                        }
+                                    } else {
+                                        if let newStateApps = try? StorageBackend.storeApp(app: StateApp(
+                                                key: app.key, value: Helpers.urlToString(url: url), shortcut: nil
+                                            ), state: appState.jsonApps) {
+                                            appState.jsonApps = newStateApps
+                                        }
                                     }
                                 }
                             }
@@ -37,10 +59,6 @@ struct ContentView: View {
                         KeyboardShortcuts.Recorder(for: KeyboardShortcuts.Name.allCases[idx])
                     }
                 }
-                Button("Reveal settings in Finder", action: {
-                    let url = Bundle.main.url(forResource: "settings", withExtension: "json")?.deletingLastPathComponent()
-                    NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: url!.relativePath)
-                })
             }
         }.frame(minWidth: 640, idealWidth: 640, minHeight: 480, idealHeight: 480)
     }
