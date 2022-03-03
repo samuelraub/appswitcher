@@ -11,6 +11,7 @@ import FilePicker
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
+    @State var saved: Bool = false
     
     var body: some View {
         VStack(alignment: .center) {
@@ -71,12 +72,28 @@ struct ContentView: View {
                             carbonModifiers: sc!.carbonModifiers, carbonKeyCode: sc!.carbonKeyCode
                         ))
                     }
-                    try? StorageBackend.storeAll(state: StateApps(apps: newStateApps))
+                    do {
+                        try StorageBackend.storeAll(state: StateApps(apps: newStateApps))
+                        saved = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            saved = false
+                        }
+                    } catch {
+                        saved = false
+                    }
                 }).keyboardShortcut(.defaultAction)
+                if saved {
+                    Text("Settings saved!")
+                }
                 Spacer()
                 Text("Settings: \(Helpers.getDocumentsDirectory().appendingPathComponent("settings.json").relativePath)")
                     .font(.system(size: 12.0))
                     .textSelection(.enabled)
+                Button("Reveal in Finder", action: {
+                        let files = [URL(fileURLWithPath: Helpers.getDocumentsDirectory().appendingPathComponent("settings.json").relativePath)];
+                        NSWorkspace.shared.activateFileViewerSelecting(files);
+                    }
+                )
             }.padding()
         }.frame(minWidth: 800, idealWidth: 800, minHeight: 600, idealHeight: 600)
     }

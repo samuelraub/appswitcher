@@ -30,7 +30,7 @@ final class AppState: ObservableObject {
     @Published var jsonApps: StateApps = StorageBackend.getAll()
 }
 
-class AppDelegate: NSObject,NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -56,12 +56,8 @@ class AppDelegate: NSObject,NSApplicationDelegate {
             }
         }
         
-        let window = NSApplication.shared.windows.filter { w in
-            return w.title == "Settings"
-        }
-        
-        if !window.isEmpty {
-            window[0].close()
+        if let window = NSApplication.shared.windows.first(where: { $0.title == "Settings" }) {
+            window.close()
         }
         
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -73,13 +69,10 @@ class AppDelegate: NSObject,NSApplicationDelegate {
     }
     
     @objc func MenuButtonToggle() {
-        let window = NSApplication.shared.windows.filter { w in
-            return w.title == "Settings"
-        }
-        if window.isEmpty {
-            OpenWindows.Settings.open()
+        if let window = NSApplication.shared.windows.first(where: { $0.title == "Settings" }) {
+            window.level = NSWindow.Level.normal
         } else {
-            window[0].level = NSWindow.Level.floating
+            OpenWindows.Settings.open()
         }
     }
 }
